@@ -7,14 +7,8 @@ import { getPosts, getUsers } from "./api/axios.js"
 import { useDispatch } from "react-redux"
 import NewBlog from './components/NewBlog';
 import "./App.css"
+import { randomDate } from './Utils';
 
-
-function randomDate() {
-  let start = new Date("January 1, 2022 00:00:00")
-  let end = new Date()
-  let rand = new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()));
-  return rand.toLocaleDateString("uk-Uk")
-}
 const App = () => {
   const dispatch = useDispatch();
   useEffect(() => {
@@ -29,7 +23,7 @@ const App = () => {
             body: post.body + post.body + post.body + post.body + post.body + post.body,
             title: post.title,
             name: users.filter(user => user.id === post.userId)[0].name,
-            date: randomDate(),
+            date: randomDate().toString(),
             reactions: {
               like: Math.floor(Math.random() * 100) + 1,
               love: Math.floor(Math.random() * 100) + 1,

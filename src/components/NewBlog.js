@@ -1,29 +1,10 @@
 import { React, useState, useRef } from 'react'
 import { useDispatch, useSelector } from "react-redux"
 import { addBlog } from '../store/blogs-slice';
-
-function getNames(blogs) {
-    let names = blogs.map(blog => blog.name)
-    let uniqueNames = [...new Set(names)];
-    return uniqueNames
-}
-function misingNumInSeq(source, min = 0, max = source.length){
-    source.sort(function (a, b) {  return a - b;  })
-    console.log(source)
-    if(min >= max){
-        return min + 1;
-    }
-    let pivot = Math.floor((min + max)/2);
-    if(source[pivot] === pivot + 1){
-        return misingNumInSeq(source, pivot + 1, max);
-    } else {
-        return misingNumInSeq(source, min , pivot);
-    }
-}
+import { getNames, misingNumInSeq } from '../Utils'; 
 
 const NewBlog = () => {
     const blogs = useSelector(state => state.blogs.blogs)
-    const source = blogs.map(blog => blog.id)
     const dispatch = useDispatch();
     const names = getNames(blogs)
     const [name, setName] = useState(names[0])
@@ -42,11 +23,11 @@ const NewBlog = () => {
         event.preventDefault();
         let data = {
             userId: blogs.find(blog => blog.name === name).userId,
-            id: misingNumInSeq(source),
+            id: misingNumInSeq(blogs.map(blog => blog.id).sort(function (a, b) { return a - b; })),
             body: textRef.current.value,
             title: titleRef.current.value,
             name: name,
-            date: new Date().toLocaleDateString("uk-Uk") ,
+            date: new Date().toString(),
             reactions: {
                 like: 0,
                 love: 0,
@@ -62,24 +43,24 @@ const NewBlog = () => {
 
     return (
         <>
-        <h1>Add blog</h1>
+            <h1>Add blog</h1>
             {adding ?
                 <div className='add-blog-container'>
                     <form onSubmit={submitHandler}>
-                    <div className='input-flex'>
-                        <label>Title </label>
-                        <input ref={titleRef} />
-                    </div>
-                    <div className='input-flex'>
-                        <label>Body </label>
-                        <input ref={textRef} />
-                    </div>
-                    <div className='input-flex'>
-                        <label>Select name:</label>
-                        <select onChange={nameChangeHendler} value={name}>{names.map(nameItem)}</select>
-                    </div>
-                  
-                    <button type='submit'>Confirm</button>
+                        <div className='input-flex'>
+                            <label>Title </label>
+                            <input ref={titleRef} />
+                        </div>
+                        <div className='input-flex'>
+                            <label>Body </label>
+                            <input ref={textRef} />
+                        </div>
+                        <div className='input-flex'>
+                            <label>Select name:</label>
+                            <select onChange={nameChangeHendler} value={name}>{names.map(nameItem)}</select>
+                        </div>
+
+                        <button type='submit'>Confirm</button>
                     </form>
                 </div> :
                 <p className='succes'>Adding blog completed</p>

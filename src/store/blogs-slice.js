@@ -9,52 +9,54 @@ export const blogsSlice = createSlice({
         addBlogs(state, { payload }) {
             state.blogs = payload
         },
-        addBlog(state, { payload }){
+        addBlog(state, { payload }) {
             state.blogs.unshift(payload)
         },
         removeBlog(state, { payload }) {
             state.blogs = state.blogs.filter(blog => blog.id !== payload)
         },
         increaseReaction(state, { payload }) {
-            const temp = state.blogs.find(blog => blog.id === payload[0])
-            let index = state.blogs.indexOf(temp)
-            switch (payload[1]) {
-                case "like":
-                    temp.reactions.like += 1
-                    break
-                case "love":
-                    temp.reactions.love += 1
-                    break
-                case "haha":
-                    temp.reactions.haha += 1
-                    break
-                case "sad":
-                    temp.reactions.sad += 1
-                    break
-                case "angry":
-                    temp.reactions.angry += 1
-                    break
-                default:
-                    return
+            const temp = state.blogs.find(blog => blog.id === payload.id)
+            if (temp !== undefined) {
+                switch (payload.reaction) {
+                    case "like":
+                        temp.reactions.like += 1
+                        break
+                    case "love":
+                        temp.reactions.love += 1
+                        break
+                    case "haha":
+                        temp.reactions.haha += 1
+                        break
+                    case "sad":
+                        temp.reactions.sad += 1
+                        break
+                    case "angry":
+                        temp.reactions.angry += 1
+                        break
+                    default:
+                        return
+                }
             }
             temp.reactionsButton = true
-            state.blogs[index] = temp
+            state.blogs[payload.id] = temp
         },
-        editText(state, {payload}){
-            const temp = state.blogs.find(blog => blog.id === payload[0])
-            let index = state.blogs.indexOf(temp)
-            temp.body = payload[1];
-            temp.date = new Date().toLocaleDateString("uk-Uk") 
-            state.blogs[index] = temp;
+        editText(state, { payload }) {
+            const temp = state.blogs.find(blog => blog.id === payload.id)
+            if (temp !== undefined) {
+                temp.body = payload.body;
+                temp.date = new Date().toString()
+                state.blogs[payload.id] = temp;
+            }
 
         },
-        editTitle(state, {payload}){
-            const temp = state.blogs.find(blog => blog.id === payload[0])
-            let index = state.blogs.indexOf(temp)
-            temp.title = payload[1];
-            temp.date = new Date()
-            state.blogs[index] = temp;
-
+        editTitle(state, { payload }) {
+            const temp = state.blogs.find(blog => blog.id === payload.id)
+            if (temp !== undefined) {
+                temp.title = payload.title;
+                temp.date = new Date().toString()
+                state.blogs[payload.id] = temp;
+            }
         }
     }
 }

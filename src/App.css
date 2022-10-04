@@ -76,7 +76,7 @@ a {
     overflow: hidden;
 }
 .blog-card.web {
-    background-image: url('C:/Users/Rade/Downloads/blog/src/img/a174_1_cover_image_1_edited.jpg');
+    background-image: url('./img/a174_1_cover_image_1_edited.jpg');
 }
 
 .content-container {
@@ -507,17 +507,17 @@ nav a:hover::before{
 }
 
 /* Slike */
-.c-like__reaction--blue {
+.c-like__reaction--like {
     background-image: url("https://res.cloudinary.com/prvnbist/image/upload/v1492531171/XZOPuv9_eyqlr2.png");
     background-size: contain, cover;
 }
 
-.c-like__reaction--red {
+.c-like__reaction--love {
     background-image: url("https://res.cloudinary.com/prvnbist/image/upload/v1492531172/uIjLl6R_cmbnqb.png");
     background-size: contain, cover;
 }
 
-.c-like__reaction--yellow {
+.c-like__reaction--haha {
     background-image: url("https://res.cloudinary.com/prvnbist/image/upload/v1492531177/lsHmtDy_ycqnbp.png");
     background-size: contain, cover;
 }

@@ -2,7 +2,8 @@ import React, { useEffect, useRef, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { useSelector } from "react-redux"
 import { useDispatch } from 'react-redux';
-import { increaseReaction, removeBlog, editText, editTitle } from '../store/blogs-slice';
+import { removeBlog, editText, editTitle } from '../store/blogs-slice';
+import { Reactions } from './Reactions';
 
 const SingleBlog = () => {
     const { id } = useParams()
@@ -19,10 +20,10 @@ const SingleBlog = () => {
 
     const sbmtHandler = (event) => {
         event.preventDefault();
-        if (titleRef.current.value !== blog.title)
-            dispatch(editTitle([blog.id, titleRef.current.value]))
-        if (textRef.current.value !== blog.body)
-            dispatch(editText([blog.id, textRef.current.value]))
+        if (titleRef.current.value !== blog.title && titleRef.current.value !== "" ){
+            dispatch(editTitle({ id: blog.id, title: titleRef.current.value}))}
+        if (textRef.current.value !== blog.body && textRef.current.value !== "")
+            dispatch(editText({id: blog.id, body: textRef.current.value}))
         setBlog({ ...blog, date: new Date().toLocaleDateString("uk-Uk") })
         setEdit(false)
     }
@@ -66,23 +67,7 @@ const SingleBlog = () => {
                             </div>
                         </div>}
 
-
-                    <div className="c-like__pill">
-                        <div className="c-like__reactions">
-                            <button title="Like" className="c-like__reaction c-like__reaction--blue" onClick={() => dispatch(increaseReaction([blog.id, "like"]))} disabled={blog.reactionsButton}></button>
-                            <p>:{blog.reactions.like}</p>
-                            <button title="Love" className="c-like__reaction c-like__reaction--red" onClick={() => dispatch(increaseReaction([blog.id, "love"]))} disabled={blog.reactionsButton}></button>
-                            <p>:{blog.reactions.love}</p>
-                            <button title="Haha" className="c-like__reaction c-like__reaction--yellow" onClick={() => dispatch(increaseReaction([blog.id, "haha"]))} disabled={blog.reactionsButton}></button>
-                            <p>:{blog.reactions.haha}</p>
-                            <button title="Angry" className="c-like__reaction c-like__reaction--angry" onClick={() => dispatch(increaseReaction([blog.id, "angry"]))} disabled={blog.reactionsButton}></button>
-                            <p>:{blog.reactions.angry}</p>
-                            <button title="Sad" className="c-like__reaction c-like__reaction--sad" onClick={() => dispatch(increaseReaction([blog.id, "sad"]))} disabled={blog.reactionsButton}></button>
-                            <p>:{blog.reactions.sad}</p>
-                        </div>
-                    </div>
-          
-
+                        {<Reactions blog = {blog} />}
                 </div>
                 : <p>Blog has been deleted return to <Link to={`/`}>home page</Link></p>
             }

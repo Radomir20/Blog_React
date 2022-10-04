@@ -1,16 +1,9 @@
 import React from 'react'
 import { Link } from "react-router-dom"
+import { timePast } from '../Utils'
 
 export const Blog = (props) => {
-  const timePast = (time) => {
-    let past = Math.round((new Date().getTime() - new Date(time).getTime) / 60000)
-    if (past < 60)
-      return (past !== 1 ? "Before " + past + " minutes" : "Before " + past + " minute")
-    else if (past / 60 < 24)
-      return (Math.round(past / 60) !== 1 ? "Before " + Math.round(past / 60) + " hours" : "Before 1 hour")
-    else
-      return time
-  }
+
   return (
     <>
 
@@ -21,7 +14,7 @@ export const Blog = (props) => {
 
               <div>
                 <h6> {props.title} </h6>
-                <p className="blogtext">{(props.body).slice(0, 100)}...</p>
+                <p className="blogtext">{(props.body).slice(0, 100)}</p>
               </div>
               <div className="post-detail">
                 <span>Posted by {props.name}</span><br />

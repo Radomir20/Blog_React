@@ -4,7 +4,7 @@ import { useSelector } from "react-redux"
 import { Link, useParams } from 'react-router-dom';
 import Blog from './Blog';
 
-const UsersList = (props) => {
+const UsersList = () => {
     const { index } = useParams()
     const blogs = useSelector(state => state.blogs.blogs)
     const [listedBlogs, setListedBlogs] = useState()
